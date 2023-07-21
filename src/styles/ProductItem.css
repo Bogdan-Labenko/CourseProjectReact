@@ -1,0 +1,12 @@
+.item{
+    width: 300px;
+    height: 750px;
+    border: 1px solid black;
+}
+img{
+    width: 100%;
+}
+/* .cartBlock{
+    display: flex;
+    margin: auto 0
+} */

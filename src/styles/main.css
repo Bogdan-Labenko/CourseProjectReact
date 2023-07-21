@@ -1,0 +1,20 @@
+.list{
+    display: flex;
+    flex-wrap: wrap;
+}
+nav{
+    display: flex;
+    width: 100%;
+    background-color: darkgrey;
+}
+nav div{
+    width: 250px;
+    height: 100px;
+    text-align: center;
+    font-size: large;
+    display: flex;
+    justify-content: center;
+}
+nav div *{
+    align-self: center;
+}
