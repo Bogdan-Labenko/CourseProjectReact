@@ -1,11 +1,6 @@
-/* .list{
+.list{
     display: flex;
     flex-wrap: wrap;
-} */
-.list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 nav{
     display: flex;

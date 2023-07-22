@@ -1,0 +1,29 @@
+nav {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+  nav div {
+    margin: 0 10px;
+    position: relative;
+  }
+
+  nav div a {
+    text-decoration: none;
+    color: #f0f0f0;
+    font-weight: bold;
+    padding: 5px 10px;
+  }
+
+  nav div a:hover {
+    color: #fff;
+    background-color: green;
+  }
+
+  nav div a.active {
+    color: #fff;
+    background-color: green;
+  }

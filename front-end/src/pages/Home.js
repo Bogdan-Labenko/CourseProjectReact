@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { getAllProducts } from "../async/dataFetch";
+import { login, setAllProducts } from "../async/dataFetch";
 import ProductItem from "../components/ProductItem";
 import "../styles/main.css"
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Home = () => {
-    const [products, setProducts] = useState([])
+    const products = useSelector(state => state.home)
+    const dispatch = useDispatch()
+
+    useEffect(() => dispatch(setAllProducts()), [])
 
     const handleSort = (selectedSort) => {
         let sortedProducts = [...products];
@@ -16,12 +20,8 @@ const Home = () => {
         } else {
             sortedProducts.sort((b, a) => a.price - b.price);
         }
-        setProducts(sortedProducts);
+        dispatch(setAllProducts(sortedProducts))
     };
-
-    useEffect(() => {
-        getAllProducts(setProducts)
-    }, []);
 
     return <>
         <h1>Home</h1>

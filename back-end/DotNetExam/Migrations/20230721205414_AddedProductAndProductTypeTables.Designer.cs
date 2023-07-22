@@ -4,6 +4,7 @@ using DotNetExam;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetExam.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230721205414_AddedProductAndProductTypeTables")]
+    partial class AddedProductAndProductTypeTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,22 +25,6 @@ namespace DotNetExam.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DotNetExam.Models.GenderType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GenderTypes");
-                });
-
             modelBuilder.Entity("DotNetExam.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -45,9 +32,6 @@ namespace DotNetExam.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("GenderTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -65,8 +49,6 @@ namespace DotNetExam.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GenderTypeId");
 
                     b.HasIndex("ProductTypeId");
 
@@ -123,15 +105,9 @@ namespace DotNetExam.Migrations
 
             modelBuilder.Entity("DotNetExam.Models.Product", b =>
                 {
-                    b.HasOne("DotNetExam.Models.GenderType", "GenderType")
-                        .WithMany()
-                        .HasForeignKey("GenderTypeId");
-
                     b.HasOne("DotNetExam.Models.ProductType", "ProductType")
                         .WithMany()
                         .HasForeignKey("ProductTypeId");
-
-                    b.Navigation("GenderType");
 
                     b.Navigation("ProductType");
                 });

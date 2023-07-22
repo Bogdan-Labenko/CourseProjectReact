@@ -44,7 +44,10 @@ builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<CookiesService>();
 //Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: sqlOption =>
+    {
+        sqlOption.EnableRetryOnFailure();
+    }));
 //Authentication and authorization
 builder.Services.AddAuthorization();
 var conf = builder.Configuration.GetSection("JWT");
@@ -70,11 +73,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero
         };
     });
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(builder =>
+	{
+		// –азрешить запросы с любых источников
+		builder.AllowAnyOrigin()
+			   .AllowAnyHeader()
+			   .AllowAnyMethod();
+	});
+});
 
 var app = builder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
