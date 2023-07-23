@@ -16,10 +16,15 @@ namespace DotNetExam.Controllers
 		{
 			_mediator = mediator;
 		}
-		[HttpGet]
+		[HttpGet("all")]
 		public async Task<ActionResult<List<Product>>> GetAllProducts()
 		{
 			return await _mediator.Send(new GetAllProductsQuery());
+		}
+		[HttpGet]
+		public async Task<ActionResult<List<Product>>> GetProductsByTypes([FromQuery] string genderType, [FromQuery] string productType)
+		{
+			return await _mediator.Send(new GetProductsByTypesQuery(genderType, productType));
 		}
 	}
 }

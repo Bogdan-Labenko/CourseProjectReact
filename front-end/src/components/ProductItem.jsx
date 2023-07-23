@@ -11,18 +11,6 @@ const ProductItem = ({props}) => {
     const handleIncrement = () => {
         dispatch(addProdToCartAction(props))
     }
-
-    // return <div className="item">
-    //     <img src={props.image} alt="baner" />
-    //     <p>{props.name}</p>
-    //     <h3>{props.price} $</h3>
-    //     <h3>Rating: {props.rating}</h3>
-    //     {props.count ? <div className="cartBlock">
-    //             <button style={{display: "inline"}} onClick={() => dispatch(addProdToCartAction({...props}))}>+</button>
-    //             <div style={{display: "inline"}}>{props.count}</div>
-    //             <button style={{ display: "inline" }} onClick={handleDecrease}>-</button>
-    //         </div> : <button onClick={() => dispatch(addProdToCartAction({...props}))}>Buy</button>}
-    // </div>
     return <div className={styles['product-card']}>
                 <img src={props.image} alt={props.name} className={styles['product-image']} />
                 <div className={styles['product-title']}>{props.name}</div>

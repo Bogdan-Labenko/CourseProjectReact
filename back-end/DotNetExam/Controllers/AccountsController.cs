@@ -45,12 +45,12 @@ namespace DotNetExam.Controllers
             }
             return Ok(await Authenticate(user));
         }
-        [Authorize]
-        [HttpGet]
-        public async Task<ActionResult<List<User>>> AllUsers()
-        {
-            return await _mediator.Send(new GetAllUsersQuery());
-        }
+        //[Authorize]
+        //[HttpGet]
+        //public async Task<ActionResult<List<User>>> AllUsers()
+        //{
+        //    return await _mediator.Send(new GetAllUsersQuery());
+        //}
         [HttpPost("register")]
         public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
         {

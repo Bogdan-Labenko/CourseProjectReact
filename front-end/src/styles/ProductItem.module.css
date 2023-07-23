@@ -16,6 +16,7 @@ img{
 
 /* Стиль для обертки карточки */
 .product-card {
+  margin: 7px;
   display: flex;
   flex-direction: column;
   align-items: center;

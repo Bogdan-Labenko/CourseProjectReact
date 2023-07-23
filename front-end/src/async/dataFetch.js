@@ -1,11 +1,18 @@
 import axios from "axios";
 import { SetAllProductsAction } from "../store/homeReducer";
+import { SetProductsByTypeAction } from "../store/productPageReducer";
 
-
+export const setProductsByType = (genderType, productType) => {
+    return dispatch => {
+        const url = `http://localhost:5098/products?genderType=${genderType}&productType=${productType}`
+        axios.get(url)
+            .then(res => dispatch(SetProductsByTypeAction(res.data)))
+    }
+}
 
 export const setAllProducts = () => {
     return dispatch => {
-        const url = "http://localhost:5098/products"
+        const url = "http://localhost:5098/products/all"
         axios.get(url)
             .then(res => dispatch(SetAllProductsAction(res.data)))
     }
@@ -16,23 +23,3 @@ export const login = (loginRequest)  => {
     return axios.post(url, loginRequest)
     .then(res => console.log(res.data))
 }
-
-export const getAllCategories = async (setCategories) => {
-    const url = "https://fakestoreapi.com/products/categories"
-    return await axios.get(url)
-        .then(res => setCategories(res.data) )
-}
-
-export const getProductsByCategory = async (category, setProductsInCategory) => {
-    const url = `https://fakestoreapi.com/products/category/${category}`
-
-    return await axios.get(url)
-        .then(res => setProductsInCategory(res.data))
-}
-
-// export const getAllProducts = async (setProducts) => {
-//     const url = "https://fakestoreapi.com/products"
-    
-//     return await axios.get(url)
-//         .then(res => setProducts(res.data))
-// }
