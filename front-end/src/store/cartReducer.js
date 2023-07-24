@@ -24,12 +24,13 @@ export const cartReducer = (state = defaultState, action) => {
                 ...state,
                 products: state.products.map(prod =>
                   prod.id === action.payload.id ? { ...prod, count: prod.count + 1 } : prod
-                )
+                ), total: state.total + action.payload.price
               };
             } else {
               return {
                 ...state,
-                products: [...state.products, { ...action.payload, count: 1 }]
+                products: [...state.products, { ...action.payload, count: 1 }],
+                total: state.total + action.payload.price
               };
             }
         }
@@ -41,12 +42,14 @@ export const cartReducer = (state = defaultState, action) => {
                   ...state,
                   products: state.products.map(prod =>
                     prod.id === action.payload.id ? { ...prod, count: prod.count - 1 } : prod
-                  )
+                  ), 
+                  total: Number(state.total) - Number(action.payload.price)
                 };
               } else {
                 return {
                   ...state,
-                  products: state.products.filter(prod => prod.id !== action.payload.id)
+                  products: state.products.filter(prod => prod.id !== action.payload.id),
+                  total: Number(state.total) - action.payload.price
                 };
               }
             }

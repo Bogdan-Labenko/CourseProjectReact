@@ -6,6 +6,7 @@ using DotNetExam.Models;
 using DotNetExam.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,7 +17,8 @@ namespace DotNetExam.Controllers
     [ApiController]
     [Route("accounts")]
     [Produces("application/json")]
-    public class AccountsController : ControllerBase
+	[EnableCors]
+	public class AccountsController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly ITokenService _tokenService;
@@ -98,6 +100,11 @@ namespace DotNetExam.Controllers
 
             return Ok(response);
         }
+        //public async Task<IActionResult> Logout()
+        //{
+        //    remove token
+        //    _cookiesService.GetRefreshTokenFromCookie(Request);
+        //}
         private async Task<AuthResponse> Authenticate(User user)
         {
             var accessToken = _tokenService.GenerateAccessToken(user);

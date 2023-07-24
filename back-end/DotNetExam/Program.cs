@@ -78,9 +78,10 @@ builder.Services.AddCors(options =>
 	options.AddDefaultPolicy(builder =>
 	{
 		// –азрешить запросы с любых источников
-		builder.AllowAnyOrigin()
-			   .AllowAnyHeader()
-			   .AllowAnyMethod();
+		builder.WithOrigins("http://localhost:3000")
+					   .AllowCredentials() // –азрешить передачу учетных данных (куки, заголовки аутентификации и т. д.)
+					   .AllowAnyHeader()
+					   .AllowAnyMethod();
 	});
 });
 

@@ -7,6 +7,7 @@ export const setProductsByType = (genderType, productType) => {
         const url = `http://localhost:5098/products?genderType=${genderType}&productType=${productType}`
         axios.get(url)
             .then(res => dispatch(SetProductsByTypeAction(res.data)))
+            .catch(errors => console.log(errors))
     }
 }
 
@@ -15,11 +16,7 @@ export const setAllProducts = () => {
         const url = "http://localhost:5098/products/all"
         axios.get(url)
             .then(res => dispatch(SetAllProductsAction(res.data)))
+            .catch(errors => console.log(errors))
     }
 }
 
-export const login = (loginRequest)  => {
-    const url = "http://localhost:5098/accounts/login"
-    return axios.post(url, loginRequest)
-    .then(res => console.log(res.data))
-}
