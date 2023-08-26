@@ -20,12 +20,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/mans/Clothes" element={<ProductCategory genderType={MALE} productType={CLOTHES}/>}></Route>
-          <Route path="/mans/Shoes" element={<ProductCategory genderType={MALE} productType={SHOES}/>}></Route>
-          <Route path="/mans/Hats" element={<ProductCategory genderType={MALE} productType={HATS}/>}></Route>
-          <Route path="/womens/Clothes" element={<ProductCategory genderType={FEMALE} productType={CLOTHES}/>}></Route>
-          <Route path="/womens/Shoes" element={<ProductCategory genderType={FEMALE} productType={SHOES}/>}></Route>
-          <Route path="/womens/Hats" element={<ProductCategory genderType={FEMALE} productType={HATS}/>}></Route>
+          <Route path="/mans/clothes" element={<ProductCategory genderType={MALE} productType={CLOTHES}/>}></Route>
+          <Route path="/mans/shoes" element={<ProductCategory genderType={MALE} productType={SHOES}/>}></Route>
+          <Route path="/mans/hats" element={<ProductCategory genderType={MALE} productType={HATS}/>}></Route>
+          <Route path="/womens/clothes" element={<ProductCategory genderType={FEMALE} productType={CLOTHES}/>}></Route>
+          <Route path="/womens/shoes" element={<ProductCategory genderType={FEMALE} productType={SHOES}/>}></Route>
+          <Route path="/womens/hats" element={<ProductCategory genderType={FEMALE} productType={HATS}/>}></Route>
           <Route path="cart" element={<Cart/>} />
         </Route>
       </Routes>
