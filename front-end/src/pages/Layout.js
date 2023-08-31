@@ -1,18 +1,9 @@
 import React, {useState} from 'react';
-import {NavLink, Outlet} from 'react-router-dom';
-import styles from '../styles/Navigation.module.css';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import {Outlet} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {login, refresh} from '../async/UserService';
+// import {login, refresh} from '../async/UserService';
 
-// import Button from '@mui/material/Button';
-// import Menu from '@mui/material/Menu';
-// import MenuItem from '@mui/material/MenuItem';
-// import PopupState, {bindTrigger, bindMenu} from 'material-ui-popup-state';
 import Link from "@mui/material/Link";
-// import {Typography} from "@mui/material";
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -25,22 +16,34 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import {FormControl, InputLabel, Select} from "@mui/material";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { color1, color2, color3, color4, color5 } from '../styles/colorScheme';
+import {deepOrange} from "@mui/material/colors";
 
 const Layout = () => {
     const isUser = useSelector(state => state.user.isUser)
     const dispatch = useDispatch()
 
-    // const pages = {
-    //     "Man`s": ["Clothes", "Shoes", "Hats"],
-    //     "Women`s": ["Clothes", "Shoes", "Hats"]
-    // }
-
     const pages = [
-        {Name: "Mans", Settings: ["Clothes", "Shoes", "Hats"]},
-        {Name: "Womens", Settings: ["Clothes", "Shoes", "Hats"]}
+        {
+            Name: "Man`s",
+            Settings: [
+                {Name: "Clothes", path: "/mans/clothes"},
+                {Name: "Shoes", path: "/mans/shoes"},
+                {Name: "Hats", path: "/mans/hats"}
+            ]
+        },
+        {
+            Name: "Women`s",
+            Settings: [
+                {Name: "Clothes", path: "/womens/clothes"},
+                {Name: "Shoes", path: "/womens/shoes"},
+                {Name: "Hats", path: "/womens/hats"}
+            ]
+        }
     ]
+
+    const userSettings = ['Profile', 'Logout'];
 
 
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -61,10 +64,24 @@ const Layout = () => {
         setAnchorElUser(null);
     };
 
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedPage, setSelectedPage] = useState(null);
+
+    const handleOpenMenu = (event, page) => {
+        setAnchorEl(event.currentTarget);
+        setSelectedPage(page);
+    };
+
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+        setSelectedPage(null);
+    };
+
     return <>
-        <AppBar position="static" sx={{backgroundColor: "#026A6B"}}>
+        <AppBar position="static" sx={{backgroundColor: `${color1}`}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
+                    {/*Full size Logo*/}
                     <Typography
                         variant="h4"
                         noWrap
@@ -83,6 +100,7 @@ const Layout = () => {
                         SportsYou
                     </Typography>
 
+                    {/*Small size menu*/}
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"
@@ -113,15 +131,42 @@ const Layout = () => {
                             }}
                         >
                             {pages.map((page) => (
-                                <Button
-                                    key={page.Name}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{my: 2, color: "#226A6B", display: 'block'}}
-                                >
-                                    {page.Name}
-                                </Button>))}
+                                <div key={page.Name}>
+                                    <Button
+                                        onClick={(event) => handleOpenMenu(event, page)}
+                                        sx={{my: 2, color: `${color1}`, display: 'block'}}
+                                    >
+                                        {page.Name}
+                                    </Button>
+                                </div>
+                            ))}
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleCloseMenu}
+                            >
+                                {selectedPage &&
+                                    selectedPage.Settings.map((setting) => (
+                                        <MenuItem
+                                            key={setting.Name}
+                                            onClick={() => {
+                                                handleCloseMenu();
+                                            }}
+                                        >
+                                            <Link
+                                                href={setting.path}
+                                                underline="none"
+                                                color={color1}
+                                            >
+                                                {setting.Name}
+                                            </Link>
+                                        </MenuItem>
+                                    ))}
+                            </Menu>
                         </Menu>
                     </Box>
+
+                    {/*Compact size Logo*/}
                     <Typography
                         variant="h5"
                         noWrap
@@ -141,47 +186,91 @@ const Layout = () => {
                         SportsYou
                     </Typography>
 
+                    {/*Full size menu*/}
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
                         {pages.map((page) => (
-                            <>
-                                 <Button
-                                     key={page.Name}
-                                     onClick={handleCloseNavMenu}
-                                     sx={{ my: 2, color: 'white', display: 'block' }}
-                                 >
-                                     {page.Name}
+                            <div key={page.Name}>
+                                <Button
+                                    onClick={(event) => handleOpenMenu(event, page)}
+                                    sx={{my: 2, color: 'white', display: 'block'}}
+                                >
+                                    {page.Name}
+                                    <KeyboardArrowDownIcon />
                                 </Button>
-                            </>))}
-                    </Box>
-
-                    <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
-                            </IconButton>
-                        </Tooltip>
+                            </div>
+                        ))}
                         <Menu
-                            sx={{mt: '45px'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleCloseMenu}
                         >
-                            {/*{settings.map((setting) => (*/}
-                            {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
-                            {/*        <Typography textAlign="center">{setting}</Typography>*/}
-                            {/*    </MenuItem>*/}
-                            {/*))}*/}
+                            {selectedPage &&
+                                selectedPage.Settings.map((setting) => (
+                                    <MenuItem
+                                        key={setting.Name}
+                                        onClick={() => {
+                                            handleCloseMenu();
+                                        }}
+                                    >
+                                        <Link
+                                            href={setting.path}
+                                            underline="none"
+                                            color={color1}
+                                        >
+                                            {setting.Name}
+                                        </Link>
+                                    </MenuItem>
+                                ))}
                         </Menu>
+                    </Box>
+                    {/*User icon and menu*/}
+                    <Box sx={{flexGrow: 0}}>
+                        {isUser
+                            ? <>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                        <Avatar alt="Remy Sharp">KD</Avatar>
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{mt: '45px'}}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {userSettings.map((setting) => (
+                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </> :
+                            <>
+                            <Button
+                                sx={{
+                                    bgcolor: 'white',
+                                    color: `${color1}`,
+                                    '&:hover': {
+                                        backgroundColor: `${color5}`, // Изменение цвета при наведении
+                                    }
+                                }}
+                            >
+                                login
+                            </Button>
+                            </>
+                        }
+
+
                     </Box>
                 </Toolbar>
             </Container>

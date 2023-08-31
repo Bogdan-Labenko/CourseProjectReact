@@ -1,0 +1,5 @@
+export let color1 = '#32A1B8'
+export let color2 = '#4B7A84'
+export let color3 = '#1D5E6B'
+export let color4 = '#69AAB8'
+export let color5 = '#0F3138'
