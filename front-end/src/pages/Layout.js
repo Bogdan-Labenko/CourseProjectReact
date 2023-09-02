@@ -18,7 +18,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { color1, color2, color3, color4, color5 } from '../styles/colorScheme';
-import {deepOrange} from "@mui/material/colors";
 
 const Layout = () => {
     const isUser = useSelector(state => state.user.isUser)
